@@ -37,8 +37,8 @@ class Rectangle {
 private: 
 	
 	
-	float* x, *y;
-	float* w, *h;
+	float x, y;
+	float w, h;
 
 
 public:

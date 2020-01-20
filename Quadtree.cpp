@@ -18,14 +18,14 @@ float Point::GetY() {
 //===========================RECTANGLE==========================================
 
 Rectangle::Rectangle(float x, float y, float w, float h) {	
-	this->x = new float;
-	*this->x = x;
-	this->y = new float;
-	*this->y = y;
-	this->w = new float;
-	*this->w = w;
-	this->h = new float;
-	*this->h = h;
+	this->x = x;
+	
+	this->y =y;
+	
+	this->w = w;
+	
+	this->h = h;
+	
 }
 
 
@@ -35,16 +35,16 @@ Rectangle::~Rectangle() {
 
 float Rectangle::GetX() {
 
-	return *this->x;
+	return this->x;
 }
 float Rectangle::GetY() {
-	return *this->y;
+	return this->y;
 }
 float Rectangle::GetW() {
-	return *this->w;
+	return this->w;
 }
 float Rectangle::GetH() {
-	return *this->h;
+	return this->h;
 }
 
 bool Rectangle::contains(Point p) {

@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 		QuadTree* test = NULL;
 		test = new QuadTree(*rect, 10);
 
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 15000; i++)
 		{
 			Point P(rand() % (int)__WIDTH, rand() % (int)__HEIGHT);
 			//std::cout << P.GetX() << "," << P.GetY() << std::endl;
