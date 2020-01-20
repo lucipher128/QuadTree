@@ -1,23 +1,16 @@
-
-
 #include"QuadTree.h"
 #include<iostream>
 #include<time.h>
 #include<random>
 
-
 #define __HEIGHT 700
 #define __WIDTH  800
-
 
 void cap_framerate(Uint32 start) {
 	if ((1000 / 60) > SDL_GetTicks() - start) {
 		SDL_Delay((1000 / 60) - (SDL_GetTicks() - start));
 	}
 }
-
-
-
 
 int main(int argc, char* argv[]) {
 
@@ -29,13 +22,6 @@ int main(int argc, char* argv[]) {
 
 	window = SDL_CreateWindow("test", 200, 200, __WIDTH, __HEIGHT, SDL_WINDOW_RESIZABLE);
 	Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-
-	
-
-
-	
-	
 
 	bool stop = false;
 	Uint32 Start;
@@ -49,13 +35,12 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		Rectangle* rect = NULL;
-		rect = new Rectangle(0, 0, 800, 700);
+		Rectangle rect(0, 0, 800, 700);
 
 		QuadTree* test = NULL;
-		test = new QuadTree(*rect, 10);
+		test = new QuadTree(rect, 5);
 
-		for (int i = 0; i < 15000; i++)
+		for (int i = 0; i < 20000; i++)
 		{
 			Point P(rand() % (int)__WIDTH, rand() % (int)__HEIGHT);
 			//std::cout << P.GetX() << "," << P.GetY() << std::endl;
@@ -65,13 +50,12 @@ int main(int argc, char* argv[]) {
 		test->draw(window, Renderer);
 		SDL_RenderPresent(Renderer);
 		cap_framerate(Start);
+		//SDL_Delay(1000);
 		delete test;
-		delete rect;
+		
 		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 1);
 		SDL_RenderClear(Renderer);
 	}
-
-	
 
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(Renderer);

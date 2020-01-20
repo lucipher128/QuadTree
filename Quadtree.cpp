@@ -19,15 +19,11 @@ float Point::GetY() {
 
 Rectangle::Rectangle(float x, float y, float w, float h) {	
 	this->x = x;
-	
 	this->y =y;
-	
 	this->w = w;
-	
 	this->h = h;
 	
 }
-
 
 Rectangle::~Rectangle() {
 
@@ -66,41 +62,32 @@ bool Rectangle::contains(Point p) {
 //===========================QUADTREE==========================================
 
 QuadTree::QuadTree(Rectangle rec, int capacity ,const char* name ) {
-	this->rec = new Rectangle();
-	*this->rec = rec;
+	this->rec = rec;
+	
 	this->capacity = capacity;
-	this->nbPoints =  new int ;
-	*this->nbPoints = 0;
-	this->divided = new bool;
-	*this->divided = false;
+	
+	this->nbPoints = 0;
+	this->divided = false;
 	this->name = name;
 }
 QuadTree::~QuadTree() {
-	
-	delete this->nbPoints;
-	delete this->divided;
-
 	delete this->ne;
 	delete this->se;
 	delete this->nw;
 	delete this->sw;
-
-	delete this->rec;
-	
-	
 }
 
 void QuadTree::SubDivide() {
-	if (*this->nbPoints < this->capacity) {		
+	if (this->nbPoints < this->capacity) {		
 		//std::cout << "added" << std::endl;
 		return;
 	}
 	else {
 		//std::cout << "dividing "<< this->name<< std::endl;
-		float x = this->rec->GetX();
-		float y = this->rec->GetY();
-		float w = this->rec->GetW();
-		float h = this->rec->GetH();
+		float x = this->rec.GetX();
+		float y = this->rec.GetY();
+		float w = this->rec.GetW();
+		float h = this->rec.GetH();
 		
 		Rectangle northwest(x , y ,w/2 ,h/2);
 		nw = new QuadTree(northwest, this->capacity,"nw");
@@ -110,21 +97,21 @@ void QuadTree::SubDivide() {
 		sw = new QuadTree(southwest, this->capacity,"sw");
 		Rectangle southeast(x+w/2,y+h/2, w / 2, h / 2);
 		se = new QuadTree(southeast, this->capacity,"se");
-		*this->divided = true;
+		this->divided = true;
 	}
 }
 
 void QuadTree::Insert(Point p ) {
-	if (!this->rec->contains(p)) {
+	if (!this->rec.contains(p)) {
 		return;
 	}
-	if (*this->nbPoints < this->capacity) {
-		this->points[*this->nbPoints] = p;
-		*(this->nbPoints) = *(this->nbPoints) + 1;
+	if (this->nbPoints < this->capacity) {
+		this->points[this->nbPoints] = p;
+		(this->nbPoints) = (this->nbPoints) + 1;
 		
 	}
 	else {
-		if (!*this->divided)
+		if (!this->divided)
 		{
 			this->SubDivide();
 		}
@@ -136,16 +123,16 @@ void QuadTree::Insert(Point p ) {
 }
 
 void QuadTree::Insert(Point p,std::string __VERSION) {
-	if (!this->rec->contains(p)) {
+	if (!this->rec.contains(p)) {
 		return;
 	}
-	if (*this->nbPoints < this->capacity) {
-		this->points[*this->nbPoints] = p;
-		*(this->nbPoints) = *(this->nbPoints) + 1;
+	if (this->nbPoints < this->capacity) {
+		this->points[this->nbPoints] = p;
+		(this->nbPoints) = (this->nbPoints) + 1;
 		std::cout << "inserted" << std::endl;
 	}
 	else {
-		if (!*this->divided)
+		if (!this->divided)
 		{
 			this->SubDivide();
 		}
@@ -157,11 +144,11 @@ void QuadTree::Insert(Point p,std::string __VERSION) {
 }
 
 void QuadTree::search( Point search[10] , Point P) {
-	if (!(*this->rec).contains(P)) {
+	if (!(this->rec).contains(P)) {
 		return; 
 	}
 
-	if (*this->divided) {
+	if (this->divided) {
 		ne->search(search, P);
 		nw->search(search, P);
 		se->search(search, P);
@@ -175,15 +162,14 @@ void QuadTree::search( Point search[10] , Point P) {
 	}
 }
 
-
 void QuadTree::draw(SDL_Window* win, SDL_Renderer* ren) {
 	
 
 
-	SDL_Rect rectangle = {  (int)this->rec->GetX(),
-							(int)this->rec->GetY(),
-							(int)this->rec->GetW(),
-							(int)this->rec->GetH() };;
+	SDL_Rect rectangle = {  (int)this->rec.GetX(),
+							(int)this->rec.GetY(),
+							(int)this->rec.GetW(),
+							(int)this->rec.GetH() };;
 	
 	
 	SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
@@ -195,13 +181,10 @@ void QuadTree::draw(SDL_Window* win, SDL_Renderer* ren) {
 		SDL_RenderDrawPoint(ren, this->points[i].GetX(), this->points[i].GetY());
 	}
 
-	if (*this->divided) {
+	if (this->divided) {
 		ne->draw(win, ren);
 		nw->draw(win, ren);
 		se->draw(win, ren);
 		sw->draw(win, ren);
 	}
-
-
-
 }
